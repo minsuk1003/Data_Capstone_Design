@@ -265,8 +265,23 @@
 
 ### 5) Facebook - Prophet 모델
 
+- Facebook에서 공개한 모델로 추세, 계절성에 불규칙한 이벤트까지 반영한 모델
+
+![image](https://user-images.githubusercontent.com/63490319/147581928-f31d3a09-0742-4453-8cd7-64d0f23e05bd.png)
+- 예측 값과 예측 범위를 제공
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147581960-4b8e5dd4-8aac-4fc9-a42b-7917b971dfcc.png)
+
+### 지수평활법
+- 시점마다 다른 가중치를 두는 방법
+![image](https://user-images.githubusercontent.com/63490319/147582104-05ac9de7-e1a9-4a97-adf7-bdf2b33156b5.png)
+- 알파가 클수록 현재 시점의 값을 많이 반영, 작을수록 전체 평균 반영
+
 ### 6) SES 모델
- 
+
+- 
 ### 7) HWES 모델
 
 
