@@ -275,15 +275,43 @@
 ![image](https://user-images.githubusercontent.com/63490319/147581960-4b8e5dd4-8aac-4fc9-a42b-7917b971dfcc.png)
 
 ### 지수평활법
-- 시점마다 다른 가중치를 두는 방법
+
 ![image](https://user-images.githubusercontent.com/63490319/147582104-05ac9de7-e1a9-4a97-adf7-bdf2b33156b5.png)
+- 시점마다 다른 가중치를 두는 방법
 - 알파가 클수록 현재 시점의 값을 많이 반영, 작을수록 전체 평균 반영
 
 ### 6) SES 모델
 
-- 
+- 수평적인 추세만을 반영하는 모델
+
+> hyperparameter alpha 도출
+
+- Grid-Search를 통해 MAPE가 가장 낮은 최적의 alpha 도출
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147583628-eeaeed76-bcb5-42f0-a57e-5665d5038e04.png)
+
+
 ### 7) HWES 모델
 
+- SES 모델에서 선형적인 추세를 추가 반영한 Holt 모델에서 계절성을 추가 반영한 모델
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147583719-f2b5f217-cd78-4a36-83ea-9fce7e9c236c.png)
+
+### 7개 모델 성능 비교
+
+![image](https://user-images.githubusercontent.com/63490319/147583744-250def67-946b-424d-8c69-58c7a0f2e754.png)
+
+> Prophet 모델
+- MAPE 측면에서 목표 달성
+- 전체 추세에 위배되는 불규칙한 이벤트에도 크게 흔들리지 않고, 항상 일정 수준 이상의 정확도가 중요할 때 적합하다.
+
+> HWES 모델, ARIMA 모델
+- RMSE, R-Squared 측면에서 목표 달성
+- 불규칙한 이벤트에는 흔들리지만, 추세를 따르는 일반적인 값들에서 매우 높은 정확도가 중요할 때 적합하다.
 
 ## 4. Conclusion
 ### 4-1. 기대효과
