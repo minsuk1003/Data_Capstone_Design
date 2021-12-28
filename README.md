@@ -60,13 +60,21 @@
 
 ### 3-2. 승객 수 예측 프로젝트
 > 시계열 분해법
+> 
 > ACF, PACF
+> 
 > 차분
+> 
 > AR 모델
+> 
 > MA 모델
+> 
 > ARIMA 모델
+> 
 > SARIMA 모델
+> 
 > SES 모델
+> 
 > HWES 모델
 
 ## 4. Conclusion
