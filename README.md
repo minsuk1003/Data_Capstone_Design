@@ -7,7 +7,14 @@
 - 이번 프로젝트는 코레일에서 제공하는 데이터를 이용해 다양한 시각화 기법으로 현재 코레일 시스템에 대해 의미 있는 결과를 도출하고, 7가지 머신러닝 시계열 예측 모델을 이용해 코레일의 승객 수를 예측한다.
 
 > Dataset
+- 역별 실적 데이터 (4개년) : 시각화, 승객 수 예측에 사용
 ![image](https://user-images.githubusercontent.com/63490319/147558421-9f8fa8f9-264c-46f9-b9e5-c51b098132a7.png)
+
+- 고객 특성 데이터 (3개년) : 시각화에 사용
+![image](https://user-images.githubusercontent.com/63490319/147558527-10966eed-24b9-4743-9a5b-4266f1250069.png)
+
+- 역별 위치정보 데이터 : 시각화에 사용
+![image](https://user-images.githubusercontent.com/63490319/147558732-1b00eea2-0df0-4242-b72c-8ce49f646adc.png)
 
 > 시각화 프로젝트 내용
 1) 시계열 데이터를 통한 기간에 따른 승객 수 시각화
