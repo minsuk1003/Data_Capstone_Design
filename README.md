@@ -88,6 +88,7 @@
 
 ![image](https://user-images.githubusercontent.com/63490319/147574630-87833ab1-a455-448f-9c34-af57f2b0fcc5.png)
 
+---
 ## 3-1. 시각화 프로젝트
 
 ### 1) 기간에 따른 승객 수 시각화 (dataset : 역별 실적 데이터)
@@ -170,22 +171,97 @@
 ![image](https://user-images.githubusercontent.com/63490319/147578015-416f1126-b8e5-4209-b7eb-6fe6ab6d8c14.png)
 
 - 여성 승객의 무궁화호 탑승 비율이 남성 승객의 무궁화호 탑승 비율보다 더 높음을 알 수 있다.
+
 ---
 ## 3-2. 승객 수 예측 프로젝트
 
+- 데이터 전처리 과정에서 생성한 코레일의 일일 총 승객 수 데이터를 이용한다.
+- 2018년 1월 ~ 2021년 4월 : train data
+- 2021년 5월 : test data
+
+### 0) 시계열 데이터의 정상성 확인, ARIMA 모델의 하이퍼파라미터 도출
+
 > 시계열 분해법
 
-> ACF, PACF
+![image](https://user-images.githubusercontent.com/63490319/147578969-6da9f0ca-bdbe-4d45-a3ee-647d71030edb.png)
 
-> 차분
+- 추세, 계절성을 파악해 정상성을 확인하기 위해 시계열 분해법 진행
+- trend에서 기간별 승객수 추세가 나타나고, seasonal에서 데이터가 패턴을 보인다.
+- 즉, 평균, 분산이 시간에 따라 일정한 성질인 정상성이 없다고 볼 수 있다.
+
+> ACF
+
+![image](https://user-images.githubusercontent.com/63490319/147579126-92d428fc-fc7f-49ef-a476-cdc48d6f37cc.png)
+
+- ACF (시차에 따른 데이터의 관계) 값이 시차가 늘어날수록 천천히 감소하므로 데이터에 추세가 존재한다.
+- 시차 7의 주기로 같은 패턴을 가지는데, 이는 일주일 주기로 비슷한 승객 수 분포를 가지는 것을 의미해 데이터에 계절성이 존재한다.
+- 즉, 정상성을 만족하지 않는다.
+
+> 차분, ADF 검정
+
+- ARIMA 모델은 정상성을 가정하는 모델이므로 데이터에 추세, 계절성을 제거하는 차분이라는 방법을 통해 정상성을 만족시켜야 한다.
+
+![image](https://user-images.githubusercontent.com/63490319/147579508-e7b4e7ae-beff-4b5a-ad7c-a091f048b862.png)
+
+- 대립가설을 정상성 만족으로 두는 ADF 검정을 통해 정상성을 확인할 수 있다.
+- 1차 차분 이후 ADF 검정을 진행한 결과, p-value = 0.3으로 대립가설을 채택하게 되어 정상성을 만족시킨다.
 
 ### 1) AR 모델
 
+- 예측하고자 하는 값 이전 관측 값들의 선형결합으로 해당 값을 예측하는 모델
+
+> hyperparameter p 도출
+
+![image](https://user-images.githubusercontent.com/63490319/147579887-c44897b5-c9f5-46a5-8bbf-7abdea4cb009.png)
+
+- 1차 차분 이후 정상성을 만족시킨 상태의 PACF를 통해 하이퍼파라미터 p를 도출한다.
+- 7의 주기를 가지므로 p = 7로 설정한다.
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147580368-93824754-38d1-4c81-a2f5-675b452a30bc.png)
+
 ### 2) MA 모델
 
+- 예측 오차를 이용해 미래를 예측하는 모델
+
+> hyperparameter q 도출
+
+![image](https://user-images.githubusercontent.com/63490319/147580429-80698e1e-8547-422a-95e6-8ea15533f8bc.png)
+
+- 1차 차분 이후 정상성을 만족시킨 상태의 ACF를 통해 하이퍼파라미터 q를 도출한다.
+- 7의 주기를 가지므로 q = 7로 설정한다.
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147580753-11c400c4-c44f-4079-8dfa-dece18ac4a04.png)
+
+
 ### 3) ARIMA 모델
- 
+
+- AR 모델과 MA 모델을 결합하고, 차분을 통해 정상성을 가정한 모델
+
+> hyperparameter p, d, q 도출
+
+- 1차 차분 이후 정상성을 만족했으므로 d = 1로 설정
+- ARIMA(p = 7, d = 1, q = 7)로 모델링
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147580990-b5846706-18f5-4c32-8e4c-182ec62bc676.png)
+
 ### 4) SARIMA 모델
+
+- ARIMA 모델에 계절성 패턴을 추가 반영한 모델
+
+> hyperparameter 도출
+
+- 전체 시계열에 대한 p,d,q와 주기 패턴에 대한 P,D,Q 범위 설정
+- Grid-Search를 통해 AIC가 가장 낮은 최적의 하이퍼파라미터 조합 도출
+
+> 결과
+
+![image](https://user-images.githubusercontent.com/63490319/147581559-f6d174df-6cb1-412b-8618-82f6fe72e069.png)
 
 ### 5) Facebook - Prophet 모델
 
